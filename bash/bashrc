@@ -42,6 +42,10 @@ source "$HOME"/.fzf/shell/key-bindings.bash
 # shellcheck disable=SC1091 disable=1090
 source "$HOME"/.tmux/completion/completions/tmux
 
+# Enabling vervet completion
+# shellcheck disable=SC1091 disable=1090
+source "$HOME"/.shell_config/completions/vervet.bash
+
 eval "$(starship init bash)"
 
 # Calling config files
