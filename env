@@ -2,7 +2,7 @@
 # Variables de entorno para terminales
 
 # vim as the default editor
-export EDITOR='vim'
+export EDITOR='nvim'
 
 # Colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
@@ -25,7 +25,7 @@ export TF_LOG_PATH="terraform.txt"
 
 # GO PATH
 export GOPATH=$HOME/go:/home/juanito/repo/juanito87/platzi/go
-export PATH=~/go/bin:$PATH
+export PATH=~/go/bin:/usr/local/go/bin:$PATH
 
 # SSH users
 export EDU_SSH_USER0="soporte"
@@ -34,8 +34,16 @@ export EDU_SSH_USER1="root"
 # Starship
 export STARSHIP_CONFIG=~/.shell_config/starship.toml
 
+# VAULT
 export VAULT_USERNAME="juanfernandez"
 export VAULT_SSH_USERNAME="juanito"
+export VAULT_CACERT=/home/juanito/repo/triton/rpcpool/main/vault-ca-mac.pem
+export VAULT_ADDR=https://vault-nyc1.rpcpool.wg:8200
+export RD_USER="juanito"
+
+# Consul
+export NOMAD_ADDR="http://nomad.service.tsw-pit1.consul:4646/"
+export NOMAD_TOKEN="69e0ab32-67e9-5faa-63b5-f4023a50aee3"
+export NOMAD_REGION="tsw-pit1"
 
 # Python env
-# export
