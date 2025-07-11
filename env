@@ -7,6 +7,9 @@ export EDITOR='nvim'
 # Colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
+#tmuxp config dir (tmux session management)
+export TMUXP_CONFIGDIR=~/.tmux/sessions/
+
 # FZF
 # shellcheck disable=SC1090
 if [[ ! "$PATH" == *$HOME/.fzf/bin* ]]; then
@@ -37,13 +40,18 @@ export STARSHIP_CONFIG=~/.shell_config/starship.toml
 # VAULT
 export VAULT_USERNAME="juanfernandez"
 export VAULT_SSH_USERNAME="juanito"
-export VAULT_CACERT=/home/juanito/repo/triton/rpcpool/main/vault-ca-mac.pem
-export VAULT_ADDR=https://vault-nyc1.rpcpool.wg:8200
+export VAULT_ADDR=https://active.vault.rpcpool.systems:8200
 export RD_USER="juanito"
+unset VAULT_CACERT
 
 # Consul
 export NOMAD_ADDR="http://nomad.service.tsw-pit1.consul:4646/"
 export NOMAD_TOKEN="69e0ab32-67e9-5faa-63b5-f4023a50aee3"
 export NOMAD_REGION="tsw-pit1"
 
+# solana
+export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+
 # Python env
+# Node env
+export NVM_DIR="$HOME/.nvm"
