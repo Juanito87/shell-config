@@ -27,8 +27,7 @@ alias df='\df -h'
 alias ls='better-ls'
 alias history='better-history'
 alias ssh='better-ssh'
-alias vsh='better-vsh'
-# alias sudo='better-sudo'
+alias sudo='better-sudo'
 
 # Reload rc files local/remote
 alias brc='source ~/.bashrc'
@@ -48,7 +47,6 @@ alias a9='source ~/.ansible9/bin/activate && cd ~/repo/triton'
 alias a210='source ~/.ansible2.10/bin/activate && cd ~/repo/edu'
 
 # Utils
-alias hatgen='PASS=$(openssl rand -hex 14) && echo $PASS && mkpasswd -m sha-256 $PASS'
 alias rmotd='run-parts /etc/update-motd.d/'
 alias myip="curl http://ipecho.net/plain; echo"
 alias fixbt="sudo rmmod btusb && sudo modprobe btusb"

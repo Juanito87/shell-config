@@ -5,4 +5,3 @@
 alias tls='tmux ls'
 alias tks='tmux kill-session -t'
 alias tkw='tmux kill-window -t'
-

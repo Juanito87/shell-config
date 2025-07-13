@@ -10,6 +10,9 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 #tmuxp config dir (tmux session management)
 export TMUXP_CONFIGDIR=~/.tmux/sessions/
 
+# Starship
+export STARSHIP_CONFIG=~/.shell_config/starship.toml
+
 # FZF
 # shellcheck disable=SC1090
 if [[ ! "$PATH" == *$HOME/.fzf/bin* ]]; then
@@ -22,37 +25,15 @@ export FZF_DEFAULT_OPTS='--height 96% --reverse --preview "cat {}"'
 # Exporting personalized commands to path
 export PATH=~/.shell_config/commands:$PATH
 
-# Terraform
-export TF_LOG=TRACE
-export TF_LOG_PATH="terraform.txt"
-
 # GO PATH
-export GOPATH=$HOME/go:/home/juanito/repo/juanito87/platzi/go
+export GOPATH=$HOME/go:/home/juanito/repo/
 export PATH=~/go/bin:/usr/local/go/bin:$PATH
-
-# SSH users
-export EDU_SSH_USER0="soporte"
-export EDU_SSH_USER1="root"
-
-# Starship
-export STARSHIP_CONFIG=~/.shell_config/starship.toml
-
-# VAULT
-export VAULT_USERNAME="juanfernandez"
-export VAULT_SSH_USERNAME="juanito"
-export VAULT_ADDR=https://active.vault.rpcpool.systems:8200
-export RD_USER="juanito"
-unset VAULT_CACERT
-
-# Consul
-export NOMAD_ADDR="http://nomad.service.tsw-pit1.consul:4646/"
-export NOMAD_TOKEN="69e0ab32-67e9-5faa-63b5-f4023a50aee3"
-export NOMAD_REGION="tsw-pit1"
 
 # solana
 export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
 
 # Python env
+
 # Node env
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

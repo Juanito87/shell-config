@@ -42,10 +42,6 @@ source "$HOME"/.fzf/shell/key-bindings.bash
 # shellcheck disable=SC1091 disable=1090
 source "$HOME"/.tmux/completion/completions/tmux
 
-# Enabling vervet completion
-# shellcheck disable=SC1091 disable=1090
-source "$HOME"/.shell_config/completions/vervet.bash
-
 eval "$(starship init bash)"
 
 # Calling config files
@@ -64,12 +60,15 @@ complete -C /usr/bin/terraform terraform
 # Calling env variables
 # shellcheck disable=SC1091 disable=1090
 source "$HOME"/.shell_config/env
+
 # shellcheck disable=SC1091 disable=1090
 source "$HOME"/.shell_config/bash/alacritty.bash
+
 if [[ $USER != root ]]; then
 # shellcheck disable=SC1091 disable=1090
     source "$HOME/.cargo/env"
 fi
+
 # Saving all commands to history, to have all tmux panes history.
 PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
 
