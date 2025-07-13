@@ -1,5 +1,8 @@
 #!/bin/bash
 # Variables de entorno para terminales
+# Check if variable is set, load the config if it doesn't
+[[ -n "$BASE_CONFIG_LOADED" ]] && return
+export BASE_CONFIG_LOADED=1
 
 # vim as the default editor
 export EDITOR='nvim'
@@ -12,6 +15,23 @@ export TMUXP_CONFIGDIR=~/.tmux/sessions/
 
 # Starship
 export STARSHIP_CONFIG=~/.shell_config/starship.toml
+
+# Private config
+PRIVATE_CONFIG="$HOME/shell_config/private-config/"
+CONFIG_FILE="bashrc"
+
+# Loop through each item in PRIVATE_CONFIG
+for dir in "$PRIVATE_CONFIG"/*; do
+  # Check that it's a directory and contains the expected file
+  if [[ -d "$dir" && -f "$dir/$CONFIG_FILE" ]]; then
+    echo "🔧 Sourcing $dir/$CONFIG_FILE"
+    # shellcheck source=/dev/null
+    source "$dir/$CONFIG_FILE"
+  else
+    # Show error if no config file in place
+    echo "⚠️  Warning: '$CONFIG_FILE' not found in $dir"
+  fi
+done
 
 # FZF
 # shellcheck disable=SC1090
@@ -36,4 +56,5 @@ export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
 
 # Node env
 export NVM_DIR="$HOME/.nvm"
+# shellcheck disable=SC1091 disable=1090
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

@@ -15,8 +15,6 @@ fi
 # - Nicer sorting/behavior
 # - Avoid preexisting Alias prefixing \ to de command, just in case
 alias grep='rg --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
 alias tree='\tree --dirsfirst -C'
 alias dmesg='\dmesg --color=auto --reltime --human --nopager --decode'
 alias free='\free -mht'
@@ -29,8 +27,8 @@ alias history='better-history'
 alias ssh='better-ssh'
 alias sudo='better-sudo'
 
-# Reload rc files local/remote
-alias brc='source ~/.bashrc'
+# Reload rc files
+alias brc='UNSET BASE_CONFIG_LOADED && source ~/.bashrc'
 alias zrc='source ~/.zshrc'
 alias trc='tmux source-file ~/.tmux.conf'
 
@@ -43,7 +41,6 @@ alias .5='cd ../../../../..'
 alias .6='cd ../../../../../..'
 
 # Python env
-alias a9='source ~/.ansible9/bin/activate && cd ~/repo/triton'
 alias a210='source ~/.ansible2.10/bin/activate && cd ~/repo/edu'
 
 # Utils
