@@ -17,7 +17,7 @@ export TMUXP_CONFIGDIR=~/.tmux/sessions/
 export STARSHIP_CONFIG=~/.shell_config/starship.toml
 
 # Private config
-export PRIVATE_CONFIG="$HOME/shell_config/private-config/"
+export PRIVATE_CONFIG="$HOME/shell_config/private-config"
 export CONFIG_FILE="bashrc"
 
 # Loop through each item in PRIVATE_CONFIG
