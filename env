@@ -17,19 +17,14 @@ export TMUXP_CONFIGDIR=~/.tmux/sessions/
 export STARSHIP_CONFIG=~/.shell_config/starship.toml
 
 # Private config
-export PRIVATE_CONFIG="$HOME/shell_config/private-config"
+export PRIVATE_CONFIG="$HOME/.shell_config/private-config"
 export CONFIG_FILE="bashrc"
 
-# Loop through each item in PRIVATE_CONFIG
-for dir in "$PRIVATE_CONFIG"/*; do
-  # Check that it's a directory and contains the expected file
-  if [[ -d "$dir" && -f "$dir/$CONFIG_FILE" ]]; then
-    echo "🔧 Sourcing $dir/$CONFIG_FILE"
-    # shellcheck source=/dev/null
-    source "$dir/$CONFIG_FILE"
-  else
-    # Show error if no config file in place
-    echo "⚠️  Warning: '$CONFIG_FILE' not found in $dir"
+# Loop through each item in PRIVATE_CONFIG"
+for config in "$PRIVATE_CONFIG"/*/"$CONFIG_FILE"; do
+  if [[ -f "$config" ]]; then
+    echo "🔧 Sourcing $config"
+    source "$config"
   fi
 done
 
