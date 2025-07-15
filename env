@@ -17,8 +17,8 @@ export TMUXP_CONFIGDIR=~/.tmux/sessions/
 export STARSHIP_CONFIG=~/.shell_config/starship.toml
 
 # Private config
-PRIVATE_CONFIG="$HOME/shell_config/private-config/"
-CONFIG_FILE="bashrc"
+export PRIVATE_CONFIG="$HOME/shell_config/private-config/"
+export CONFIG_FILE="bashrc"
 
 # Loop through each item in PRIVATE_CONFIG
 for dir in "$PRIVATE_CONFIG"/*; do
@@ -49,10 +49,18 @@ export PATH=~/.shell_config/commands:$PATH
 export GOPATH=$HOME/go:/home/juanito/repo/
 export PATH=~/go/bin:/usr/local/go/bin:$PATH
 
+# GO env management
+# shellcheck disable=SC1091 disable=1090
+[[ -s "$HOME/gvm/scripts/gvm" ]] && source "$HOME/gvm/scripts/gvm"
+
+# Saving all commands to history, to have all tmux panes history.
+PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+
+# NVM bash completion
+# shellcheck disable=SC1091 disable=1090
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 # solana
 export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
-
-# Python env
 
 # Node env
 export NVM_DIR="$HOME/.nvm"
