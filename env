@@ -16,6 +16,10 @@ export TMUXP_CONFIGDIR=~/.tmux/sessions/
 # Starship
 export STARSHIP_CONFIG=~/.shell_config/starship.toml
 
+# Colors for ls
+LS_COLORS=$LS_COLORS:'pi=33:bd=33;01:cd=33;01:su=31;01:sg=33:tw=32:ow=34:st=34:'
+export LS_COLORS
+
 # Private config
 export PRIVATE_CONFIG="$HOME/.shell_config/private-config"
 export CONFIG_FILE="bashrc"
