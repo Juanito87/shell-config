@@ -74,7 +74,7 @@ fi
 # done
 
 # Terraform settings
-complete -o nospace -C /usr/bin/terraform terraform
+compdef -o nospace -C /usr/bin/terraform terraform
 
 # Calling evn variables
 # shellcheck disable=1090
