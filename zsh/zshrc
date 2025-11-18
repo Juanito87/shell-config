@@ -25,7 +25,7 @@ zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower
 
 # Setting function directory
 # fpath=(~/.shell_config/zsh $fpath)
-fpath=(~/.shell_config $fpath)
+fpath=(~/.config/shell-config $fpath)
 
 # Setting autocomplete
 autoload -Uz compinit
@@ -49,7 +49,7 @@ eval "$(starship init zsh)"
 
 # Calling config files
 # shellcheck disable=1090
-for f in "$HOME"/.shell_config/myalias/*;
+for f in "$HOME"/.config/shell-config/myalias/*;
 do
    if [ -f "$f" ]
    then
@@ -60,7 +60,7 @@ done
 # Setting tmux to launch always on gui only or on wsl
 if [[ $DISPLAY ]] || [[ "$(< /proc/sys/kernel/osrelease)" == *microsoft* ]]; then
     [[ -z "$TMUX" ]] && exec tmux;
-    run-parts /etc/update-motd.d
+    # run-parts /etc/update-motd.d
 fi
 
 # Calling custom commands
@@ -74,8 +74,8 @@ fi
 # done
 
 # Terraform settings
-compdef -o nospace -C /usr/bin/terraform terraform
+compdef _terraform terraform
 
 # Calling evn variables
 # shellcheck disable=1090
-source "$HOME"/.shell_config/env
+source "$HOME"/.config/shell-config/env

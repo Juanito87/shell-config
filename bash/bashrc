@@ -16,7 +16,7 @@ shopt -s globstar
 # Setting tmux to launch always on gui only or on wsl
 if [[ $- == *i* ]]; then
     [[ -z "$TMUX" ]] && exec tmux;
-    run-parts /etc/update-motd.d
+    # run-parts /etc/update-motd.d
 fi
 
 #Enabling bash completion
