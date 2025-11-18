@@ -25,7 +25,7 @@ zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower
 
 # Setting function directory
 # fpath=(~/.shell_config/zsh $fpath)
-fpath=(~/.config/shell-config $fpath)
+fpath=(~/.config/shell_config $fpath)
 
 # Setting autocomplete
 autoload -Uz compinit
@@ -49,7 +49,7 @@ eval "$(starship init zsh)"
 
 # Calling config files
 # shellcheck disable=1090
-for f in "$HOME"/.config/shell-config/myalias/*;
+for f in "$HOME"/.config/shell_config/myalias/*;
 do
    if [ -f "$f" ]
    then
@@ -78,4 +78,4 @@ compdef _terraform terraform
 
 # Calling evn variables
 # shellcheck disable=1090
-source "$HOME"/.config/shell-config/env
+source "$HOME"/.config/shell_config/env
