@@ -1,0 +1,67 @@
+#!/bin/bash
+# Variables de entorno para terminales
+# Check if variable is set, load the config if it doesn't
+[[ -n "$BASE_CONFIG_LOADED" ]] && return
+export BASE_CONFIG_LOADED=1
+
+# vim as the default editor
+export EDITOR='nvim'
+
+# Colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+#tmuxp config dir (tmux session management)
+export TMUXP_CONFIGDIR=~/.tmux/sessions/
+
+# Starship
+export STARSHIP_CONFIG=~/.shell_config/starship.toml
+
+# Colors for ls
+LS_COLORS=$LS_COLORS:'pi=33:bd=33;01:cd=33;01:su=31;01:sg=33:tw=32:ow=34:st=34:'
+export LS_COLORS
+
+# Private config
+export PRIVATE_CONFIG="$HOME/.shell_config/private-config"
+export CONFIG_FILE="bashrc"
+
+# Loop through each item in PRIVATE_CONFIG"
+for config in "$PRIVATE_CONFIG"/*/"$CONFIG_FILE"; do
+  if [[ -f "$config" ]]; then
+    echo "🔧 Sourcing $config"
+    source "$config"
+  fi
+done
+
+# FZF
+# shellcheck disable=SC1090
+if [[ ! "$PATH" == *$HOME/.fzf/bin* ]]; then
+  export PATH="${PATH:+${PATH}:}$HOME/.fzf/bin"
+fi
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS='--height 96% --reverse --preview "cat {}"'
+
+# Exporting personalized commands to path
+export PATH=~/.shell_config/commands:$PATH
+
+# GO PATH
+export GOPATH=$HOME/go:/home/juanito/repo/
+export PATH=~/go/bin:/usr/local/go/bin:$PATH
+
+# GO env management
+# shellcheck disable=SC1091 disable=1090
+[[ -s "$HOME/gvm/scripts/gvm" ]] && source "$HOME/gvm/scripts/gvm"
+
+# Saving all commands to history, to have all tmux panes history.
+PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+
+# NVM bash completion
+# shellcheck disable=SC1091 disable=1090
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# solana
+export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+
+# Node env
+export NVM_DIR="$HOME/.nvm"
+# shellcheck disable=SC1091 disable=1090
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
