@@ -31,7 +31,6 @@ fpath=(~/.shell_config $fpath)
 autoload -Uz compinit
 compinit
 _comp_options+=(globdots)
-# autoload -U +X bashcompinit && bashcompinit
 
 # set change directory without cd and notification for background jobs
 setopt autocd notify
@@ -46,16 +45,7 @@ setopt kshglob
 unsetopt nomatch
 
 # Setting prompt
-# source ~/.shell_config/prompt/prompt-dracula.sh
 eval "$(starship init zsh)"
-
-# FZF
-# Auto-completion
-# shellcheck disable=SC1090
-[[ $- == *i* ]] && source "$HOME"/.fzf/shell/completion.zsh 2> /dev/null
-# Key bindings
-# shellcheck disable=SC1090
-source "$HOME"/.fzf/shell/key-bindings.zsh
 
 # Calling config files
 # shellcheck disable=1090
