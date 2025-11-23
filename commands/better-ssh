@@ -1,13 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env sh
 # SSH with automatic tmux connection, fails over to normal shell if no tmux is present
-# This one liner does:
+# This one-liner does:
 # - Checks if tmux is present
-# - Attachs or connnects to tmux
+# - Attaches or connects to tmux
 # - If tmux is not present, starts a normal shell
 
-function better_ssh()
-{
-    /usr/bin/ssh "$@" -t /bin/sh "command -v tmux &>/dev/null || tmux new -A -s $(whoami) || $SHELL -l"
+better_ssh() {
+    /usr/bin/ssh "$@" -t /bin/sh "
+        # Check if tmux exists on the remote machine
+        command -v tmux >/dev/null 2>&1 \
+        # If tmux does NOT exist, try to start tmux
+        || tmux new -A -s \"\$(whoami)\" \
+        # If tmux fails, fall back to the user's default shell
+        || exec \"\$SHELL\" -l
+    "
 }
 
 # Call main function
