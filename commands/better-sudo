@@ -1,30 +1,31 @@
 #!/usr/bin/env sh
-# Portable script that enables better autocompletion for sudo
-# Works in: bash, zsh
-
-# Detect shell
-_shell="$(ps -p $$ -o comm=)"
+# Portable better sudo completion (bash + zsh)
 
 better_sudo() {
+    # Detect shell reliably
+    if [ -n "$BASH_VERSION" ]; then
+        _shell="bash"
+    elif [ -n "$ZSH_VERSION" ]; then
+        _shell="zsh"
+    else
+        _shell="unknown"
+    fi
+
     case "$_shell" in
         bash)
-            # Bash: use complete -cf to enable command completion (not filenames)
             complete -cf sudo
             ;;
         zsh)
-            # Zsh: `complete` does not exist — we must use compdef
-            # Ensure bashcompinit is loaded, so zsh understands Bash-style completion
             autoload -Uz compinit
             compinit
 
             autoload -Uz bashcompinit
             bashcompinit
 
-            # Now zsh can use `complete -cf` the same way bash does
             complete -cf sudo
             ;;
         *)
-            printf "better_sudo: unsupported shell: %s\n" "$_shell" >&2
+            printf "better_sudo: unsupported shell\n" >&2
             return 1
             ;;
     esac
