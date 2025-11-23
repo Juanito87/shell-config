@@ -6,7 +6,7 @@
 # - If tmux is not present, starts a normal shell
 
 better_ssh() {
-    /usr/bin/ssh "$@" -t /bin/sh "
+    ssh "$@" -t /bin/sh "
         # Check if tmux exists on the remote machine
         command -v tmux >/dev/null 2>&1 \
         # If tmux does NOT exist, try to start tmux
