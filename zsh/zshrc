@@ -49,6 +49,14 @@ eval "$(starship init zsh)"
 
 # Calling config files
 # shellcheck disable=1090
+for f in "$HOME"/.config/shell_config/commands/*;
+do
+   if [ -f "$f" ]
+   then
+       source "$f";
+   fi
+done
+# shellcheck disable=1090
 for f in "$HOME"/.config/shell_config/myalias/*;
 do
    if [ -f "$f" ]
@@ -62,16 +70,6 @@ if [[ $DISPLAY ]] || [[ "$(< /proc/sys/kernel/osrelease)" == *microsoft* ]]; the
     [[ -z "$TMUX" ]] && exec tmux;
     # run-parts /etc/update-motd.d
 fi
-
-# Calling custom commands
-# shellcheck disable=1090
-# for f in "$HOME"/.config/shell_config/commands/*;
-# do
-#    if [ -f "$f" ]
-#    then
-#        source "$f";
-#    fi
-# done
 
 # Terraform settings
 compdef _terraform terraform
