@@ -1,20 +1,49 @@
-#!/bin/bash
-# Formating options to call history command in a pretier way.
-better_history()
-{
-    # Local are color codes, can be changed, for more info
-    #http://es.tldp.org/COMO-INSFLUG/COMOs/Bash-Prompt-Como/Bash-Prompt-Como-5.html
-    local blue="\033[0;34m"
-    local nocolor="\033[0m"
-    # Format for date to be displayed be history, for other options
-    # https://man7.org/linux/man-pages/man3/strftime.3.html
-    HISTTIMEFORMAT="$(echo -e "${blue}[%d-%m-%y %T] $nocolor")"
-    export HISTTIMEFORMAT
-    export HISTSIZE=10000 # size in memory during session.
-    export HISTFILESIZE=50000 # size of the file holding history for future sessions.
-    export HISTCONTROL=ignoreboth # don't put duplicate lines or lines starting with space in the history.
-    shopt -s histappend
+#!/usr/bin/env sh
+
+better_history() {
+    # POSIX-safe color vars
+    blue="$(printf '\033[0;34m')"
+    nocolor="$(printf '\033[0m')"
+
+    # Detect shell
+    case "$SHELL" in
+        */bash)
+            # Bash history format
+            HISTTIMEFORMAT="$blue[%d-%m-%y %T] $nocolor"
+            export HISTTIMEFORMAT
+
+            export HISTSIZE=10000
+            export HISTFILESIZE=50000
+            export HISTCONTROL=ignoreboth
+
+            # Enable append mode (Bash)
+            # Using "command" avoids errors if "shopt" doesn’t exist
+            command shopt -s histappend 2>/dev/null
+            ;;
+        
+        */zsh)
+            # Zsh equivalent behavior
+            
+            # Timestamp format (Zsh uses %F, %T)
+            export HISTTIMEFORMAT=""  # must be empty for zsh
+            setopt extended_history     # adds timestamp internally
+            
+            export HISTSIZE=10000
+            export SAVEHIST=50000
+            export HISTFILE="$HOME/.zsh_history"
+
+            setopt inc_append_history   # append as commands are executed
+            setopt share_history        # share between sessions
+            setopt hist_ignore_all_dups
+            setopt hist_ignore_space
+
+            ;;
+        
+        *)
+            # Other POSIX shells → no-op, but safe
+            :
+            ;;
+    esac
 }
 
-# call main function
-better_history "$@"
+better_history
