@@ -1,70 +1,90 @@
-#!/bin/bash
-# Set global variables
-# Number of files to process
-m=1
-# r = 0 to keep the original file r = 1 to remove it
-r=0
-# option index
-OPTIND=1
+#!/bin/sh
 
-# Function definitions
+# Default options
+m=1         # number of files expected
+r=0         # remove original (0 = keep, 1 = delete)
+
 show_help() {
- cat << EOF
- Usage: bak [-hr] [-m NUMBER] [FILE/S]...
- Copy FILE to a new one with the following name format filename+timestamp+.bak.
+    cat << EOF
+Usage: bak [-hr] [-m NUMBER] FILE...
 
-     -h          display this help and exit
-     -m NUMBER   support for backing multiple files, equal to NUMBER
-     -r          remove the file after back up
+Copy FILE to a new one with this format:
+    bak_TIMESTAMP-FILENAME
+
+Options:
+  -h          Show this help and exit
+  -m NUMBER   Expect NUMBER files (NUMBER >= 1)
+  -r          Remove original file after backup
 EOF
 }
 
-function bak()
-{
-if [ "$#" -eq 0 ]
-then
-    show_help
-else
-# # Check that there is only one parameter
-#     if [ "$#" -eq "$m" ]
-#     then
-        for param in "$@";
-            do
-               # Make timestamp to avoid overwriting or promtpting
-               time=$(date +%d-%m-%y_%H:%M)
-               # Copy and preserve permitions
-               cp -p "$param" "bak_$time-$param" >&2
-               if [ $r -eq 1 ]
-               then
-                   rm "$param"
-               fi
-            done
-    # fi
-fi
-exit 0
-}
-
+# ---- Option parsing ----
 OPTIND=1
-# Parse options
+
 while getopts "hrm:" opt; do
-    case $opt in
-        h) show_help
-           exit 0;;
-        r) r=1;;
-        m) if [ "$OPTARG" -gt 1 ]
-           then
-               # shellcheck disable=SC2034
-               m="$OPTARG"
-           else
-               echo "NUMBER must be equal to 2 or higher"
-               exit 1
-           fi;;
-        *) echo "Invalid option -$opt" >&2
-           show_help >&2
-           exit 2;;
+    case "$opt" in
+        h)  show_help
+            exit 0 ;;
+        r)  r=1 ;;
+        m)  case "$OPTARG" in
+                ''|*[!0-9]*) 
+                    printf "ERROR: -m requires a positive number.\n" >&2
+                    exit 1 ;;
+                *)
+                    if [ "$OPTARG" -lt 1 ]; then
+                        printf "ERROR: NUMBER must be 1 or greater.\n" >&2
+                        exit 1
+                    fi
+                    m="$OPTARG"
+                    ;;
+            esac ;;
+        *)
+            show_help >&2
+            exit 2 ;;
     esac
 done
-shift "$((OPTIND-1))"
 
-# Call main function
-bak "$@"
+shift "$((OPTIND - 1))"
+
+# ---- Validate arguments ----
+if [ "$#" -lt 1 ]; then
+    show_help
+    exit 1
+fi
+
+if [ "$#" -ne "$m" ]; then
+    printf "ERROR: Expected %s file(s), but got %s.\n" "$m" "$#" >&2
+    exit 1
+fi
+
+# ---- Main logic ----
+timestamp=$(date +%d-%m-%y_%H:%M)
+
+for file in "$@"; do
+    if [ ! -e "$file" ]; then
+        printf "ERROR: File does not exist: %s\n" "$file" >&2
+        continue
+    fi
+
+    backup="bak_${timestamp}-$(basename -- "$file")"
+
+    # Copy preserving permissions (POSIX cp -p)
+    if cp -p -- "$file" "$backup" 2>/dev/null; then
+        printf "Created: %s\n" "$backup"
+    else
+        # Try again without -p (some POSIX systems lack full support)
+        if cp -- "$file" "$backup"; then
+            printf "Created (no -p available): %s\n" "$backup"
+        else
+            printf "ERROR: Failed to backup %s\n" "$file" >&2
+            continue
+        fi
+    fi
+
+    # Remove original if -r
+    if [ "$r" -eq 1 ]; then
+        rm -- "$file"
+    fi
+done
+
+exit 0
