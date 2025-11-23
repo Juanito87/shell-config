@@ -11,7 +11,7 @@ better_ls() {
     fi
 
     # Find ls binary
-    LS=$(command -v ls)
+    LS=$(\ls)
 
     # Timestamp format
     TS="+%d-%m-%Y %R"
