@@ -11,7 +11,7 @@ better_ls() {
     fi
 
     # Find ls binary
-    LS=$(which ls)
+    #LS=$(which ls)
 
     # Timestamp format
     TS="+%d-%m-%Y %R"
@@ -22,22 +22,22 @@ better_ls() {
     if [ "$#" -eq 0 ]; then
 
         # Count visible + hidden files (except . and ..)
-        files=$($LS -Ua 2>/dev/null | wc -l)
+        files=$(\ls -Ua 2>/dev/null | wc -l)
 
         if [ "$files" -ne 0 ]; then
             # List . and .. and everything else
             # (brace expansion replaced with explicit items)
-            $LS -d . .. * \
+            \ls -d . .. * \
                 -lA --color=auto --human-readable \
                 --time-style="$TS" --group-directories-first \
                 2>/dev/null
 
             # Count hidden files (.[^.]*)
-            hidden_files=$($LS -U -d .[^.]* 2>/dev/null | wc -l)
+            hidden_files=$(\ls -U -d .[^.]* 2>/dev/null | wc -l)
 
             if [ "$hidden_files" -ne 0 ]; then
                 printf '\n'
-                $LS -d .[^.]* \
+                \ls -d .[^.]* \
                     -l --color=auto --hide='..' \
                     --human-readable --time-style="$TS" \
                     --group-directories-first
@@ -45,7 +45,7 @@ better_ls() {
 
         else
             # Folder is empty → show only . and ..
-            $LS -d . .. \
+            \ls -d . .. \
                 -lA --color=auto --human-readable \
                 --time-style="$TS" --group-directories-first
         fi
@@ -63,13 +63,13 @@ better_ls() {
     # CASE 3 — A single file → show detailed info
     #
     elif [ "$#" -eq 1 ] && [ -f "$1" ]; then
-        $LS -l --color=auto --human-readable --time-style="$TS" "$1"
+        \ls -l --color=auto --human-readable --time-style="$TS" "$1"
 
     #
     # CASE 4 — Multiple args → standard ls w/ nicer defaults
     #
     else
-        $LS --color=auto --human-readable --time-style="$TS" \
+        \ls --color=auto --human-readable --time-style="$TS" \
             --group-directories-first "$@"
     fi
 }
