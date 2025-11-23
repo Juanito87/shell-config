@@ -47,4 +47,31 @@ better_ls() {
             # Folder is empty → show only . and ..
             $LS -d . .. \
                 -lA --color=auto --human-readable \
-                --
+                --time-style="$TS" --group-directories-first
+        fi
+
+    #
+    # CASE 2 — A single directory → recurse into it
+    #
+    elif [ "$#" -eq 1 ] && [ -d "$1" ]; then
+        current_pwd=$PWD
+        cd "$1" || exit 1
+        better_ls
+        cd "$current_pwd" || exit 1
+
+    #
+    # CASE 3 — A single file → show detailed info
+    #
+    elif [ "$#" -eq 1 ] && [ -f "$1" ]; then
+        $LS -l --color=auto --human-readable --time-style="$TS" "$1"
+
+    #
+    # CASE 4 — Multiple args → standard ls w/ nicer defaults
+    #
+    else
+        $LS --color=auto --human-readable --time-style="$TS" \
+            --group-directories-first "$@"
+    fi
+}
+
+better_ls "$@"
