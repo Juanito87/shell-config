@@ -10,9 +10,6 @@ better_ls() {
         local LS TS files hidden_files current_pwd
     fi
 
-    # Find ls binary
-    #LS=$(which ls)
-
     # Timestamp format
     TS="+%d-%m-%Y %R"
 
@@ -74,4 +71,6 @@ better_ls() {
     fi
 }
 
-better_ls "$@"
+if [ "$(printf '%s\n' "$0")" = "$(printf '%s\n' "$BASH_SOURCE" 2>/dev/null || printf '%s\n' "$0")" ]; then
+    better_ls "$@"
+fi
