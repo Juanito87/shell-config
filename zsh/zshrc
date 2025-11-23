@@ -6,10 +6,10 @@ zstyle ':completion:*' prompt '*'
 zstyle :compinstall filename '$HOME/.zshrc'
 
 # git completion
-# zstyle ':completion:*:*:git:*' script ~/.shell_config/zsh/completions/git-completion.zsh
+# zstyle ':completion:*:*:git:*' script ~/.config/shell_config/zsh/completions/git-completion.zsh
 
 # innernet completion
-zstyle ':completion:*:*:innernet:*' script ~/.shell_config/zsh/completions/_innernet
+zstyle ':completion:*:*:innernet:*' script ~/.config/shell_config/zsh/completions/_innernet
 
 # Highlight the current autocomplete option
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
@@ -65,7 +65,7 @@ fi
 
 # Calling custom commands
 # shellcheck disable=1090
-# for f in "$HOME"/.shell_config/commands/*;
+# for f in "$HOME"/.config/shell_config/commands/*;
 # do
 #    if [ -f "$f" ]
 #    then
