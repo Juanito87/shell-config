@@ -1,36 +1,57 @@
-#!/bin/bash
+#!/bin/sh
 
 show_help() {
- cat << EOF
- Usage: memo [PARAMETER]
- Show in fzf for easier view the info on the defined alias or custom commands
+    cat << EOF
+Usage: memo [PARAMETER]
+Show in fzf the info on the defined alias or custom commands
 
+PARAMETERS:
+  alias      Show defined aliases
+  commands   Show custom commands
 EOF
 }
 
-function memo()
-{
-if [ "$#" -eq 0 ]
-then
-    show_help
-else
-    # Telling closing condition
-    printf "Presione ESC para finalizar\n"
-    # Check that there is only one parameter
-    if [ $# -eq 1 ]
-    then
-        case $1 in
-           # Compara el valor y asigna el comando a mostrar para el help, agregar un case a futuro
-           "alias") grep -R "alias " "$HOME"/.shell_config/myalias/ | awk -F":" '{print $2}' | fzf;;
-           "commands") < "$HOME"/.shell_config/commands/resumen fzf ;;
-           *) printf "Las opciones disponibles actualmente son \nalias\ncommands\n" ;;
-        esac
-    else
-       printf "El comando solo acepta un parámetro\nLas opciones disponibles actualmente son:\nalias\ncommands\n"
+memo() {
+    if [ "$#" -eq 0 ]; then
+        show_help
+        return 0
     fi
+
+    printf "Presione ESC para finalizar\n"
+
+    # Allow only one argument
+    if [ "$#" -ne 1 ]; then
+        printf "El comando solo acepta un parámetro.\nLas opciones disponibles son:\n  alias\n  commands\n"
+        return 1
+    fi
+
+    case "$1" in
+        alias)
+            # grep -R is not strictly POSIX but widely portable;
+            # for strict POSIX, you'd need `find` + `xargs grep`.
+            find "$HOME/.config/shell_config/myalias" -type f \
+                | xargs grep "alias " 2>/dev/null \
+                | awk -F: '{print $2}' \
+                | fzf
+            ;;
+
+        commands)
+            # POSIX redirect of a file into a pipeline
+            if [ -f "$HOME/.config/shell_config/commands/resumen" ]; then
+                fzf < "$HOME/.config/shell_config/commands/resumen"
+            else
+                printf "Archivo no encontrado: %s\n" "$HOME/.config/shell_config/commands/resumen"
+                return 1
+            fi
+            ;;
+
+        *)
+            printf "Parámetro inválido.\nOpciones disponibles:\n  alias\n  commands\n"
+            return 1
+            ;;
+    esac
+
     return 0
-fi
 }
 
-# Call main function
 memo "$@"
