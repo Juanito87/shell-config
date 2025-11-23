@@ -17,4 +17,7 @@ better_ssh() {
 }
 
 # Call main function
-better_ssh "$@"
+# Execute only if not sourced
+if [ "$(printf '%s\n' "$0")" = "$(printf '%s\n' "$BASH_SOURCE" 2>/dev/null || printf '%s\n' "$0")" ]; then
+    better_ssh "$@"
+fi
