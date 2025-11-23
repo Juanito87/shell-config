@@ -11,17 +11,17 @@ export EDITOR='nvim'
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 #tmuxp config dir (tmux session management)
-export TMUXP_CONFIGDIR=~/.tmux/sessions/
+export TMUXP_CONFIGDIR=~/.config/tmux/sessions/
 
 # Starship
-export STARSHIP_CONFIG=~/.shell_config/starship.toml
+export STARSHIP_CONFIG=~/.config/shell_config/starship.toml
 
 # Colors for ls
 LS_COLORS=$LS_COLORS:'pi=33:bd=33;01:cd=33;01:su=31;01:sg=33:tw=32:ow=34:st=34:'
 export LS_COLORS
 
 # Private config
-export PRIVATE_CONFIG="$HOME/.shell_config/private-config"
+export PRIVATE_CONFIG="$HOME/.config/shell_config/private-config"
 export CONFIG_FILE="bashrc"
 
 # Loop through each item in PRIVATE_CONFIG"
@@ -42,7 +42,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS='--height 96% --reverse --preview "cat {}"'
 
 # Exporting personalized commands to path
-export PATH=~/.shell_config/commands:$PATH
+export PATH=~/.config/shell_config/commands:$PATH
 
 # GO PATH
 export GOPATH=$HOME/go:/home/juanito/repo/
