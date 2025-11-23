@@ -14,7 +14,7 @@ fi
 # - Human readable
 # - Nicer sorting/behavior
 # - Avoid preexisting Alias prefixing \ to de command, just in case
-alias grep='rg --color=auto'
+alias grep='rg -n --color=auto'
 alias tree='\tree --dirsfirst -C'
 alias dmesg='\dmesg --color=auto --reltime --human --nopager --decode'
 alias free='\free -mht'
@@ -25,7 +25,6 @@ alias df='\df -h'
 alias ls='better-ls'
 alias history='better-history'
 alias ssh='better-ssh'
-alias sudo='better-sudo'
 
 # Reload rc files
 alias brc='UNSET BASE_CONFIG_LOADED && source ~/.bashrc'
