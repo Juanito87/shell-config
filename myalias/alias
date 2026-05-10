@@ -28,7 +28,7 @@ alias ssh='better-ssh'
 alias sudo='better-sudo'
 
 # Reload rc files
-alias brc='UNSET BASE_CONFIG_LOADED && source ~/.bashrc'
+alias brc='unset BASE_CONFIG_LOADED && source ~/.bashrc'
 alias zrc='source ~/.zshrc'
 alias trc='tmux source-file ~/.tmux.conf'
 
