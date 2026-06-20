@@ -11,6 +11,17 @@ alias gitdotsm='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME submod
 alias gitdotsma='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME submodule add'
 alias gitdotsmu='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME submodule update --remote --merge'
 
+ghpr() {
+  local branch file title body
+  branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null) \
+    || { echo "ghpr: not in a git repository" >&2; return 1; }
+  file="/tmp/pr-${branch//\//-}.md"
+  [ -f "$file" ] || { echo "ghpr: draft not found: $file (run the PR draft keybind in nvim first)" >&2; return 1; }
+  title=$(head -n 1 "$file")
+  body=$(tail -n +2 "$file" | sed '/./,$!d')   # skip title line + leading blanks
+  gh pr create --title "$title" --body "$body" "$@"
+}
+
 # shellcheck disable=SC2009
 # shellcheck disable=SC2154
 if [[ $(ps -p $$ | grep sh | awk '{print $(NF)}') = "$shell" ]]; then
@@ -21,9 +32,5 @@ if [[ $(ps -p $$ | grep sh | awk '{print $(NF)}') = "$shell" ]]; then
         __git_complete gitdotsm _git_submodule
         __git_complete gitdotsma _git_submodule
         __git_complete gitdotsmu _git_submodule
-        __git_complete gitrdot __git_main
-        __git_complete gitrdotsm _git_submodule
-        __git_complete gitrdotsma _git_submodule
-        __git_complete gitrdotsmu _git_submodule
    fi
 fi
